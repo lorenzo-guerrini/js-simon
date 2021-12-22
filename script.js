@@ -6,7 +6,7 @@ const arrayLength = 5;
 let numbersArray = [];
 
 //Secondi di countdown
-let seconds = 5;
+let seconds = 30;
 
 //Crea testo iniziale e lo inserisce nel gameContainer
 let regole = document.createElement("p");
