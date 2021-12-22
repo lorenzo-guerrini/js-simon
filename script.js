@@ -21,17 +21,19 @@ function randomNumberGen(min, max) {
 }
 
 //Countdown 
-//let startCountDown = setInterval(countDown, 1000);
-let seconds = 30;
+let startCountDown = setInterval(countDown, 1000);
+let seconds = 5;
 function countDown() {
     console.log(seconds);
     seconds--;
     if (seconds == 0) {
         console.log("Tempo scaduto!");
+        const guessedNumbers = askNumbers(numbersArray);
+        console.log("Hai indovinato i seguenti numeri: " + guessedNumbers)
+
         clearInterval(startCountDown);
     }
 }
-askNumbers(numbersArray);
 
 //Chiede in prompt i numeri e controlla se sono presenti in un array, restituisce un array con i numeri indovinati
 function askNumbers(array) {
@@ -44,7 +46,6 @@ function askNumbers(array) {
             guessedNumbers.push(input)
         }
     }
-
     return guessedNumbers;
 }
 
@@ -55,6 +56,5 @@ function isInArray(value, array) {
             return true;
         }
     }
-
     return false;
 }
