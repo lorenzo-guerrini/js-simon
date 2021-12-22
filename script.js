@@ -6,7 +6,7 @@ const arrayLength = 5;
 let numbersArray = [];
 
 //Secondi di countdown
-let seconds = 30;
+let seconds = 5;
 
 //Crea testo iniziale e lo inserisce nel gameContainer
 let regole = document.createElement("p");
@@ -48,8 +48,8 @@ function startCountDown(seconds) {
     let guessedNumbers = [];
     const milliseconds = seconds * 999;
 
-    setTimeout(function() {
-        gameContainer.innerHTML="";
+    setTimeout(function () {
+        gameContainer.innerHTML = "";
     }, milliseconds)
 
     let newCountDown = setInterval(function () {
@@ -57,7 +57,6 @@ function startCountDown(seconds) {
         seconds--;
         if (seconds == 0) {
             guessedNumbers = askNumbers(numbersArray);
-            console.log("Hai indovinato i seguenti numeri: " + guessedNumbers)
             outcomePrinter(guessedNumbers);
             clearInterval(newCountDown);
         }
@@ -91,6 +90,12 @@ function isInArray(value, array) {
 
 function outcomePrinter(guessedNumbers) {
     let outcome = document.createElement("div");
-    outcome.innerHTML = "Hai indovinato i seguenti numeri: " + guessedNumbers;
+    const nGuessedNumbers = guessedNumbers.length;
+
+    if (nGuessedNumbers > 0) {
+        outcome.innerHTML = nGuessedNumbers + " su " + arrayLength + " numeri indovinati: " + guessedNumbers;
+    } else {
+        outcome.innerHTML = "Non hai indovinato nessun numero!"
+    }
     gameContainer.append(outcome);
 }
