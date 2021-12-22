@@ -91,9 +91,11 @@ function isInArray(value, array) {
 function outcomePrinter(guessedNumbers) {
     let outcome = document.createElement("div");
     const nGuessedNumbers = guessedNumbers.length;
-
-    if (nGuessedNumbers > 0) {
-        outcome.innerHTML = nGuessedNumbers + " su " + arrayLength + " numeri indovinati: " + guessedNumbers;
+    outcome.innerHTML = "Hai indovinato ";
+    if (nGuessedNumbers == 1) {
+        outcome.innerHTML += "1 numero su " + arrayLength + ": " + guessedNumbers;
+    } else if (nGuessedNumbers > 0) {
+        outcome.innerHTML += nGuessedNumbers + " numeri su " + arrayLength + ": " + guessedNumbers;
     } else {
         outcome.innerHTML = "Non hai indovinato nessun numero!"
     }
