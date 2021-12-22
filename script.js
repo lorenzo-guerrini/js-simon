@@ -1,5 +1,9 @@
+const arrayLength = 5;
+const numbersArray = randomArrayGen(arrayLength, 1, 100);
+
 const container = document.getElementById("container");
-container.innerHTML = randomArrayGen(5, 1, 100);
+container.innerHTML = numbersArray;
+console.log(numbersArray);
 
 //Genera un array con numeri random
 function randomArrayGen(length, min, max) {
@@ -17,7 +21,7 @@ function randomNumberGen(min, max) {
 }
 
 //Countdown 
-let startCountDown = setInterval(countDown, 1000);
+//let startCountDown = setInterval(countDown, 1000);
 let seconds = 30;
 function countDown() {
     console.log(seconds);
@@ -26,4 +30,31 @@ function countDown() {
         console.log("Tempo scaduto!");
         clearInterval(startCountDown);
     }
+}
+askNumbers(numbersArray);
+
+//Chiede in prompt i numeri e controlla se sono presenti in un array, restituisce un array con i numeri indovinati
+function askNumbers(array) {
+    let guessedNumbers = [];
+
+    for (let i = 0; i < array.length; i++) {
+        let input = parseInt(prompt("Inserisci un numero che hai visto"));
+
+        if (isInArray(input, array)) {
+            guessedNumbers.push(input)
+        }
+    }
+
+    return guessedNumbers;
+}
+
+//Controlla se un valore è presente in un array
+function isInArray(value, array) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] == value) {
+            return true;
+        }
+    }
+
+    return false;
 }
