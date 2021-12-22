@@ -16,3 +16,14 @@ function randomNumberGen(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+//Countdown 
+let startCountDown = setInterval(countDown, 1000);
+let seconds = 30;
+function countDown() {
+    console.log(seconds);
+    seconds--;
+    if (seconds == 0) {
+        console.log("Tempo scaduto!");
+        clearInterval(startCountDown);
+    }
+}
