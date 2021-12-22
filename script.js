@@ -1,9 +1,32 @@
-const arrayLength = 5;
-const numbersArray = randomArrayGen(arrayLength, 1, 100);
+//Variabile gameContainer
+const gameContainer = document.getElementById("game-container");
 
-const container = document.getElementById("container");
-container.innerHTML = numbersArray;
-console.log(numbersArray);
+//Lunghezza e variabile array;
+const arrayLength = 5;
+let numbersArray = [];
+
+//Secondi di countdown
+let seconds = 30;
+
+//Crea testo iniziale e lo inserisce nel gameContainer
+let regole = document.createElement("p");
+regole.innerHTML = "Regole: <br> Avrai " + seconds + " secondi di tempo per memorizzare i numeri che appariranno sullo schermo. Scaduto il tempo, ti verrà chiesto di riscriverli uno per volta. <br> Premi Play per giocare!"
+gameContainer.append(regole);
+
+//Variabile playButton
+
+const playButton = document.createElement("button");
+playButton.innerHTML = "Play"
+playButton.addEventListener("click", start);
+gameContainer.append(playButton);
+
+//Fa partire il gioco
+function start() {
+    numbersArray = randomArrayGen(arrayLength, 1, 100);
+    gameContainer.innerHTML = numbersArray;
+    console.log(numbersArray);
+    startCountDown(seconds);
+}
 
 //Genera un array con numeri random
 function randomArrayGen(length, min, max) {
@@ -20,23 +43,30 @@ function randomNumberGen(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-//Countdown 
-let startCountDown = setInterval(countDown, 1000);
-let seconds = 5;
-function countDown() {
-    console.log(seconds);
-    seconds--;
-    if (seconds == 0) {
-        console.log("Tempo scaduto!");
-        const guessedNumbers = askNumbers(numbersArray);
-        console.log("Hai indovinato i seguenti numeri: " + guessedNumbers)
+//Fa partire un countdown e restituisce true appena è finito
+function startCountDown(seconds) {
+    let guessedNumbers = [];
+    const milliseconds = seconds * 999;
 
-        clearInterval(startCountDown);
-    }
+    setTimeout(function() {
+        gameContainer.innerHTML="";
+    }, milliseconds)
+
+    let newCountDown = setInterval(function () {
+        console.log(seconds);
+        seconds--;
+        if (seconds == 0) {
+            guessedNumbers = askNumbers(numbersArray);
+            console.log("Hai indovinato i seguenti numeri: " + guessedNumbers)
+            outcomePrinter(guessedNumbers);
+            clearInterval(newCountDown);
+        }
+    }, 1000);
 }
 
 //Chiede in prompt i numeri e controlla se sono presenti in un array, restituisce un array con i numeri indovinati
 function askNumbers(array) {
+    gameContainer.innerHTML = "";
     let guessedNumbers = [];
 
     for (let i = 0; i < array.length; i++) {
@@ -57,4 +87,10 @@ function isInArray(value, array) {
         }
     }
     return false;
+}
+
+function outcomePrinter(guessedNumbers) {
+    let outcome = document.createElement("div");
+    outcome.innerHTML = "Hai indovinato i seguenti numeri: " + guessedNumbers;
+    gameContainer.append(outcome);
 }
