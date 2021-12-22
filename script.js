@@ -10,10 +10,10 @@ let seconds = 5;
 
 //Crea testo iniziale e lo inserisce nel gameContainer
 let regole = document.createElement("p");
-regole.innerHTML = "Regole: <br> Avrai " + seconds + " secondi di tempo per memorizzare i numeri che appariranno sullo schermo. Scaduto il tempo, ti verrà chiesto di riscriverli uno per volta. <br> Premi Play per giocare!"
+regole.innerHTML = "<strong>Regole:</strong> <br> Avrai " + seconds + " secondi di tempo per memorizzare i numeri che appariranno sullo schermo. Scaduto il tempo, ti verrà chiesto di riscriverli uno per volta. <br> Premi Play per giocare!"
 gameContainer.append(regole);
 
-//Variabile playButton
+//Genera variabile playButton
 
 const playButton = document.createElement("button");
 playButton.innerHTML = "Play"
@@ -46,7 +46,9 @@ function randomNumberGen(min, max) {
 //Fa partire un countdown e restituisce true appena è finito
 function startCountDown(seconds) {
     let guessedNumbers = [];
-    const milliseconds = seconds * 999;
+
+    //Conversione approssimativa
+    const milliseconds = seconds * 995;
 
     setTimeout(function () {
         gameContainer.innerHTML = "";
@@ -81,7 +83,7 @@ function askNumbers(array) {
 //Controlla se un valore è presente in un array
 function isInArray(value, array) {
     for (let i = 0; i < array.length; i++) {
-        if (array[i] == value) {
+        if (array[i] === value) {
             return true;
         }
     }
@@ -93,11 +95,14 @@ function outcomePrinter(guessedNumbers) {
     const nGuessedNumbers = guessedNumbers.length;
     outcome.innerHTML = "Hai indovinato ";
     if (nGuessedNumbers == 1) {
-        outcome.innerHTML += "1 numero su " + arrayLength + ": " + guessedNumbers;
+        outcome.innerHTML += "1 numero su " + arrayLength + ": <br> " + guessedNumbers;
     } else if (nGuessedNumbers > 0) {
-        outcome.innerHTML += nGuessedNumbers + " numeri su " + arrayLength + ": " + guessedNumbers;
+        outcome.innerHTML += nGuessedNumbers + " numeri su " + arrayLength + ": <br> " + guessedNumbers;
     } else {
         outcome.innerHTML = "Non hai indovinato nessun numero!"
     }
+
+    outcome.innerHTML += " <br> Gioca ancora!"
     gameContainer.append(outcome);
+    gameContainer.append(playButton);
 }
