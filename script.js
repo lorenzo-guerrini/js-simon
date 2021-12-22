@@ -1,27 +1,28 @@
-//Variabile gameContainer
+//Variabili Container e gameContainer
 const gameContainer = document.getElementById("game-container");
+const container = document.getElementById("container");
 
 //Lunghezza e variabile array;
 const arrayLength = 5;
 let numbersArray = [];
 
 //Secondi di countdown
-let seconds = 30;
+let seconds = 3;
 
 //Crea testo iniziale e lo inserisce nel gameContainer
 let regole = document.createElement("p");
-regole.innerHTML = "<strong>Regole:</strong> <br> Avrai " + seconds + " secondi di tempo per memorizzare i numeri che appariranno sullo schermo. Scaduto il tempo, ti verrà chiesto di riscriverli uno per volta. <br> Premi Play per giocare!"
+regole.innerHTML = "<strong>Regole:</strong> <br> Avrai " + seconds + " secondi di tempo per memorizzare i numeri che appariranno sullo schermo. Scaduto il tempo, ti verrà chiesto di riscriverli uno per volta. <br> Premi Play per giocare!";
 gameContainer.append(regole);
 
 //Genera variabile playButton
-
 const playButton = document.createElement("button");
-playButton.innerHTML = "Play"
+playButton.innerHTML = "Play";
 playButton.addEventListener("click", start);
 gameContainer.append(playButton);
 
 //Fa partire il gioco
 function start() {
+    container.classList.remove("win");
     numbersArray = randomArrayGen(arrayLength, 1, 100);
     gameContainer.innerHTML = numbersArray;
     console.log(numbersArray);
@@ -32,7 +33,7 @@ function start() {
 function randomArrayGen(length, min, max) {
     let newArray = [];
     for (let i = 0; i < length; i++) {
-        newArray.push(randomNumberGen(min, max))
+        newArray.push(randomNumberGen(min, max));
     }
 
     return newArray;
@@ -48,11 +49,11 @@ function startCountDown(seconds) {
     let guessedNumbers = [];
 
     //Conversione approssimativa
-    const milliseconds = seconds * 995;
+    const milliseconds = seconds * 990;
 
     setTimeout(function () {
         gameContainer.innerHTML = "";
-    }, milliseconds)
+    }, milliseconds);
 
     let newCountDown = setInterval(function () {
         console.log(seconds);
@@ -74,7 +75,7 @@ function askNumbers(array) {
         let input = parseInt(prompt("Inserisci un numero che hai visto"));
 
         if (isInArray(input, array)) {
-            guessedNumbers.push(input)
+            guessedNumbers.push(input);
         }
     }
     return guessedNumbers;
@@ -90,19 +91,25 @@ function isInArray(value, array) {
     return false;
 }
 
+//Stampa un outcome diverso in base a quanti numeri sono stati indovinati
 function outcomePrinter(guessedNumbers) {
     let outcome = document.createElement("div");
     const nGuessedNumbers = guessedNumbers.length;
+
     outcome.innerHTML = "Hai indovinato ";
     if (nGuessedNumbers == 1) {
         outcome.innerHTML += "1 numero su " + arrayLength + ": <br> " + guessedNumbers;
+    } else if (nGuessedNumbers == arrayLength) {
+        outcome.innerHTML += nGuessedNumbers + " numeri su " + arrayLength + ": <br> " + guessedNumbers + " <br> Complimenti!";
+        container.classList.add("win");
     } else if (nGuessedNumbers > 0) {
         outcome.innerHTML += nGuessedNumbers + " numeri su " + arrayLength + ": <br> " + guessedNumbers;
     } else {
-        outcome.innerHTML = "Non hai indovinato nessun numero!"
+        outcome.innerHTML = "Non hai indovinato nessun numero!";
     }
 
     outcome.innerHTML += " <br> Gioca ancora!"
     gameContainer.append(outcome);
+    playButton.innerHTML = "Replay";
     gameContainer.append(playButton);
 }
